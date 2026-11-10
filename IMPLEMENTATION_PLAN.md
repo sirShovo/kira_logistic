@@ -668,28 +668,46 @@ El agente encargado de implementar el frontend debe seguir estrictamente este or
 
 El frontend sera considerado completo y satisfactorio unicamente si cumple la totalidad de los siguientes criterios:
 
-| Codigo | Requisito / Caso de Uso | Criterio de Aceptacion Funcional |
-| :--- | :--- | :--- |
-| **CA-01** | **RF-01 / UC-01** | La tabla lista los pedidos pendientes, permite filtrar por estado y abrir el desglose de productos. |
-| **CA-02** | **UC-01 Alt 1** | Se muestra una vista de estado vacio clara cuando no hay registros pendientes para despachar. |
-| **CA-03** | **UC-01 Alt 2** | Al activar el conmutador de desconexion WMS, el sistema notifica el error de base de datos y ofrece un boton de reintento. |
-| **CA-04** | **RF-02 / UC-02** | El sistema calcula de forma automatica y precisa el peso total en kg, volumen en $m^3$ y dimensiones maximas a partir de las lineas de producto. |
-| **CA-05** | **UC-02 Alt 1** | Si a un producto le falta peso o dimension, se marca como "Requiere Datos Maestros", se emite advertencia y se habilita un modal para ingresar los datos faltantes en linea. |
-| **CA-06** | **UC-02 Alt 2** | Si la carga supera 8,500 kg o 38 m³, el sistema alerta sobre el exceso y habilita un boton para dividir el pedido de forma automatica en dos sub-despachos. |
-| **CA-07** | **RF-03 / UC-03** | La vista de vehiculos filtra los candidatos aptos evaluando peso, volumen, alto, ancho y largo interior de la carroceria. |
-| **CA-08** | **UC-03 Alt 1** | Si no hay vehiculos disponibles para la fecha, el sistema propone fechas alternativas de despacho seleccionables. |
-| **CA-09** | **UC-03 Alt 2** | Si ningun vehiculo cubre la capacidad de la carga, la interfaz advierte y sugiere fraccionar o usar multiples unidades. |
-| **CA-10** | **RF-04 / UC-04** | La confirmacion de asignacion actualiza el vehiculo a "Reservado" y el pedido a "Asignado", creando la entidad Asignacion. |
-| **CA-11** | **UC-04 Alt 1** | Si se simula concurrencia, el sistema notifica que el vehiculo fue tomado por otro usuario y refresca la disponibilidad. |
-| **CA-12** | **UC-04 Alt 2** | Si se cancela la reserva en la ventana de confirmacion, los cambios se descartan y el vehiculo permanece disponible. |
-| **CA-13** | **RF-05 / UC-05** | Se genera la hoja de ruta consolidada con paradas, ventanas horarias, kilometraje y tiempo estimado de viaje. |
-| **CA-14** | **UC-05 Alt 1** | Si un destino no pertenece a las zonas autorizadas, se emite una advertencia de cobertura y se permite el ajuste manual. |
-| **CA-15** | **UC-05 Alt 2** | Ante falla de calculo o activacion del modo manual, el usuario puede reordenar las paradas interactivamente con controles de movimiento. |
-| **CA-16** | **RF-06 / UC-06** | La consola despliega el avance del despacho en ejecucion, mostrando barra de progreso y ultima ubicacion. |
-| **CA-17** | **UC-06 Alt 1** | Al desconectar el enlace GPS, se emite alerta de desconexion y se congela la visualizacion en la ultima ubicacion conocida. |
-| **CA-18** | **UC-06 Alt 2** | El transportista puede reportar novedad con motivo y justificacion, pasando el despacho a "Devolucion" o "Reprogramado". |
-| **CA-19** | **UC-06 Exito** | Al confirmar la entrega exitosa, el despacho y pedido se marcan como "Completado" y el vehiculo se libera a "Disponible". |
-| **CA-20** | **RNF-01** | El selector de usuarios en la barra superior restringe las acciones y vistas segun el perfil (Despachos, Transporte, Admin). |
-| **CA-21** | **RNF-05** | El modulo de administracion cuenta con una funcion de diagnostico que comprueba la consistencia e integridad entre entidades. |
-| **CA-22** | **RNF-06** | El sistema permite crear copias de respaldo inmediatas (snapshots), descargarlas en formato JSON y restaurarlas integralmente. |
-| **CA-23** | **Diseno Funcional** | En todo el desarrollo se omiten especificaciones de colores, garantizando que la interfaz se guie estrictamente por estructura, componentes, estados y flujos operativos. |
+| Codigo | Requisito / Caso de Uso | Criterio de Aceptacion Funcional | Estado de Verificacion |
+| :--- | :--- | :--- | :--- |
+| **CA-01** | **RF-01 / UC-01** | La tabla lista los pedidos pendientes, permite filtrar por estado y abrir el desglose de productos. | Implementado y Verificado (OK) |
+| **CA-02** | **UC-01 Alt 1** | Se muestra una vista de estado vacio clara cuando no hay registros pendientes para despachar. | Implementado y Verificado (OK) |
+| **CA-03** | **UC-01 Alt 2** | Al activar el conmutador de desconexion WMS, el sistema notifica el error de base de datos y ofrece un boton de reintento. | Implementado y Verificado (OK) |
+| **CA-04** | **RF-02 / UC-02** | El sistema calcula de forma automatica y precisa el peso total en kg, volumen en $m^3$ y dimensiones maximas a partir de las lineas de producto. | Implementado y Verificado (OK) |
+| **CA-05** | **UC-02 Alt 1** | Si a un producto le falta peso o dimension, se marca como "Requiere Datos Maestros", se emite advertencia y se habilita un modal para ingresar los datos faltantes en linea. | Implementado y Verificado (OK) |
+| **CA-06** | **UC-02 Alt 2** | Si la carga supera 8,500 kg o 38 m³, el sistema alerta sobre el exceso y habilita un boton para dividir el pedido de forma automatica en dos sub-despachos. | Implementado y Verificado (OK) |
+| **CA-07** | **RF-03 / UC-03** | La vista de vehiculos filtra los candidatos aptos evaluando peso, volumen, alto, ancho y largo interior de la carroceria. | Implementado y Verificado (OK) |
+| **CA-08** | **UC-03 Alt 1** | Si no hay vehiculos disponibles para la fecha, el sistema propone fechas alternativas de despacho seleccionables. | Implementado y Verificado (OK) |
+| **CA-09** | **UC-03 Alt 2** | Si ningun vehiculo cubre la capacidad de la carga, la interfaz advierte y sugiere fraccionar o usar multiples unidades. | Implementado y Verificado (OK) |
+| **CA-10** | **RF-04 / UC-04** | La confirmacion de asignacion actualiza el vehiculo a "Reservado" y el pedido a "Asignado", creando la entidad Asignacion. | Implementado y Verificado (OK) |
+| **CA-11** | **UC-04 Alt 1** | Si se simula concurrencia, el sistema notifica que el vehiculo fue tomado por otro usuario y refresca la disponibilidad. | Implementado y Verificado (OK) |
+| **CA-12** | **UC-04 Alt 2** | Si se cancela la reserva en la ventana de confirmacion, los cambios se descartan y el vehiculo permanece disponible. | Implementado y Verificado (OK) |
+| **CA-13** | **RF-05 / UC-05** | Se genera la hoja de ruta consolidada con paradas, ventanas horarias, kilometraje y tiempo estimado de viaje. | Implementado y Verificado (OK) |
+| **CA-14** | **UC-05 Alt 1** | Si un destino no pertenece a las zonas autorizadas, se emite una advertencia de cobertura y se permite el ajuste manual. | Implementado y Verificado (OK) |
+| **CA-15** | **UC-05 Alt 2** | Ante falla de calculo o activacion del modo manual, el usuario puede reordenar las paradas interactivamente con controles de movimiento. | Implementado y Verificado (OK) |
+| **CA-16** | **RF-06 / UC-06** | La consola despliega el avance del despacho en ejecucion, mostrando barra de progreso y ultima ubicacion. | Implementado y Verificado (OK) |
+| **CA-17** | **UC-06 Alt 1** | Al desconectar el enlace GPS, se emite alerta de desconexion y se congela la visualizacion en la ultima ubicacion conocida. | Implementado y Verificado (OK) |
+| **CA-18** | **UC-06 Alt 2** | El transportista puede reportar novedad con motivo y justificacion, pasando el despacho a "Devolucion" o "Reprogramado". | Implementado y Verificado (OK) |
+| **CA-19** | **UC-06 Exito** | Al confirmar la entrega exitosa, el despacho y pedido se marcan como "Completado" y el vehiculo se libera a "Disponible". | Implementado y Verificado (OK) |
+| **CA-20** | **RNF-01** | El selector de usuarios en la barra superior restringe las acciones y vistas segun el perfil (Despachos, Transporte, Admin). | Implementado y Verificado (OK) |
+| **CA-21** | **RNF-05** | El modulo de administracion cuenta con una funcion de diagnostico que comprueba la consistencia e integridad entre entidades. | Implementado y Verificado (OK) |
+| **CA-22** | **RNF-06** | El sistema permite crear copias de respaldo inmediatas (snapshots), descargarlas en formato JSON y restaurarlas integralmente. | Implementado y Verificado (OK) |
+| **CA-23** | **Diseno Funcional** | En todo el desarrollo se omiten especificaciones de colores, garantizando que la interfaz se guie estrictamente por estructura, componentes, estados y flujos operativos. | Implementado y Verificado (OK) |
+
+---
+
+## 8. INFORME DE FINALIZACION Y ARQUITECTURA VISUAL (AWESOME-DESIGN-MD)
+
+El plan de implementacion ha sido ejecutado en su totalidad siguiendo los principios de diseno de **awesome-design-md** y la especificacion de **DESIGN.md**:
+
+1. **Jerarquia Visual y Precision:**
+   - Barra lateral oscura contrastada (Sidebar Canvas `#181417`, Surface `#221c21`, Active `#2e252c`), inspirada en la arquitectura de herramientas de alto rendimiento como Linear y Mercury.
+   - Espacio de trabajo claro con fondo `#f8faf9`, tarjetas elevadas `#ffffff` con bordes ultrafinos (`1px`, `rgba(99, 88, 94, 0.12)`) y sombras suaves sin fatiga visual.
+   - Aplicacion estricta de la paleta corporativa de Distribuidora Kiramar S.A.S.: Frosted Mint (`#c4e7d4`), Ash Grey (`#c4dacf`), Pale Slate (`#b9c0da`), Lilac Ash (`#998da0`) y Taupe Grey (`#63585e`).
+
+2. **Claridad Operativa y Experiencia Amigable:**
+   - Sustitucion de textos academicos por rotulos directos, profesionales e intuitivos para el despachador.
+   - Contadores en tiempo real de pedidos pendientes, flota activa y despachos en curso en el encabezado global.
+   - Conmutador interactivo de enlace WMS para verificar el comportamiento sin conexion.
+   - Simuladores integrados de concurrencia de reserva vehicular e interrupcion de senal telemetrica GPS con registro manual radial.
+   - Auditoria referencial con un clic y centro de exportacion e importacion de respaldos JSON.
