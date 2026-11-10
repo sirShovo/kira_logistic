@@ -20,11 +20,8 @@ import type {
   Usuario,
   Vehiculo,
 } from './types/domain';
-import {
-  calcularCaracteristicasCarga,
-  generarRutaEntrega,
-} from './utils/logisticsEngine';
-import { Navbar } from './components/Navbar';
+import { generarRutaEntrega } from './utils/logisticsEngine';
+import { CrmSidebar, TopCommandBar } from './components/Navbar';
 import type { ModuloActivo } from './components/Navbar';
 import { WorkflowBanner } from './components/WorkflowBanner';
 import { PedidosModule } from './components/PedidosModule';
@@ -34,7 +31,8 @@ import { ClientesCrmModule } from './components/ClientesCrmModule';
 import { AdminSeguridadModule } from './components/AdminSeguridadModule';
 
 export function App() {
-  const [moduloActivo, setModuloActivo] = useState<ModuloActivo>('pedidos');
+  const [moduloActivo, setModuloActivo] = useState<ModuloActivo>('resumen');
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [usuarios] = useState<Usuario[]>(USUARIOS_INICIALES);
   const [usuarioActual, setUsuarioActual] = useState<Usuario>(
     USUARIOS_INICIALES[0]
@@ -59,7 +57,7 @@ export function App() {
   const [asignacionSeleccionadaId, setAsignacionSeleccionadaId] =
     useState<string>(ASIGNACIONES_INICIALES[0].idAsignacion);
 
-  // UC-02 Camino Alternativo 1: Completar datos maestros faltantes en una línea de producto
+  // UC-02 Camino Alternativo 1: Completar datos maestros faltantes en SKU
   const handleCompletarDatosMaestros = (
     idPedido: string,
     idLinea: string,
@@ -76,12 +74,11 @@ export function App() {
             ? { ...l, pesoUnitario, alto, ancho, largo }
             : l
         );
-        const pedidoActualizado: Pedido = {
+        return {
           ...ped,
           lineas: nuevasLineas,
           estadoPedido: 'Validado',
         };
-        return pedidoActualizado;
       })
     );
   };
@@ -255,7 +252,7 @@ export function App() {
     );
   };
 
-  // UC-06: Iniciar despacho a partir de una asignación y su ruta
+  // UC-06: Iniciar despacho y abrir vista de trazabilidad en vivo
   const handleIniciarDespacho = (idAsignacion: string, idRuta: string) => {
     const asg = asignaciones.find((a) => a.idAsignacion === idAsignacion);
     if (!asg) return;
@@ -306,6 +303,7 @@ export function App() {
           : v
       )
     );
+    setModuloActivo('trazabilidad');
   };
 
   // UC-06 Camino Alternativo 1: Alternar estado de telemetría GPS
@@ -443,37 +441,26 @@ export function App() {
     setWmsConectado(true);
   };
 
-  // Métricas operativas consolidadas
-  const metricas = {
+  const sidebarCounts = {
     pedidosPendientes: pedidos.filter((p) =>
-      [
-        'Pendiente',
-        'Validado',
-        'Requiere Datos Maestros',
-        'Excede Límites',
-      ].includes(p.estadoPedido)
+      ['Pendiente', 'Validado'].includes(p.estadoPedido)
     ).length,
-    pesoConsolidadoTotalKg: Math.round(
-      pedidos.reduce(
-        (acc, p) => acc + calcularCaracteristicasCarga(p).pesoTotalKg,
-        0
-      )
-    ),
-    vehiculosDisponibles: vehiculos.filter(
-      (v) => v.estadoVehiculo === 'Disponible'
+    alertasCarga: pedidos.filter((p) =>
+      ['Requiere Datos Maestros', 'Excede Límites'].includes(p.estadoPedido)
     ).length,
-    asignacionesActivas: asignaciones.filter(
-      (a) => a.estadoAsignacion !== 'Cancelada'
-    ).length,
-    rutasPlanificadas: rutas.length,
-    despachosEnEjecucion: despachos.filter(
+    vehiculosLibres: vehiculos.filter((v) => v.estadoVehiculo === 'Disponible')
+      .length,
+    rutasActivas: rutas.length,
+    despachosEnCurso: despachos.filter(
       (d) => d.estadoDespacho === 'En Ejecución'
     ).length,
+    clientesTotal: CLIENTES_CRM_INICIALES.length,
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--g-main)] text-[var(--ink)]">
-      <Navbar
+    <div className="min-h-screen flex bg-[var(--g-main)] text-[var(--ink)]">
+      {/* Barra Lateral Izquierda Fija (CRM Sidebar) */}
+      <CrmSidebar
         moduloActivo={moduloActivo}
         setModuloActivo={setModuloActivo}
         usuarioActual={usuarioActual}
@@ -481,36 +468,54 @@ export function App() {
         onCambiarUsuario={setUsuarioActual}
         wmsConectado={wmsConectado}
         onToggleWms={() => setWmsConectado((prev) => !prev)}
-        pendientesCount={metricas.pedidosPendientes}
-        enRutaCount={metricas.despachosEnEjecucion}
+        counts={sidebarCounts}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
       />
 
-      {/* Contenido Principal (compensando la altura de la cabecera fija) */}
-      <main
-        id="top"
-        className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-8 pt-[148px] sm:pt-[134px] pb-16"
-      >
-        <WorkflowBanner
-          metricas={metricas}
-          pedidoSeleccionadoId={pedidoSeleccionadoId}
+      {/* Área Principal del CRM */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <TopCommandBar
           moduloActivo={moduloActivo}
-          onIrModulo={setModuloActivo}
+          setModuloActivo={setModuloActivo}
+          pedidos={pedidos}
+          pedidoSeleccionadoId={pedidoSeleccionadoId}
+          onSeleccionarPedido={setPedidoSeleccionadoId}
+          onOpenMobileMenu={() => setMobileOpen(true)}
         />
 
-        {/* Paneles de módulos (modern-web-guidance tabs: role="tabpanel" sin padding/borde directo en el nodo con hidden) */}
-        <div
-          role="tabpanel"
-          aria-labelledby="tab-pedidos"
-          hidden={moduloActivo !== 'pedidos'}
+        <main
+          id="top"
+          className="flex-1 p-4 sm:p-6 max-w-[1440px] w-full mx-auto"
         >
-          {moduloActivo === 'pedidos' && (
+          {moduloActivo === 'resumen' && (
+            <WorkflowBanner
+              pedidos={pedidos}
+              vehiculos={vehiculos}
+              asignaciones={asignaciones}
+              despachos={despachos}
+              trazabilidad={trazabilidad}
+              onAbrirPedidoEnModulo={(idPed, mod) => {
+                setPedidoSeleccionadoId(idPed);
+                setModuloActivo(mod);
+              }}
+              onIrModulo={setModuloActivo}
+            />
+          )}
+
+          {(moduloActivo === 'pedidos' || moduloActivo === 'cubicaje') && (
             <PedidosModule
+              vistaSubmodulo={moduloActivo}
               pedidos={pedidos}
               clientes={CLIENTES_CRM_INICIALES}
               pedidoSeleccionadoId={pedidoSeleccionadoId}
               onSeleccionarPedido={setPedidoSeleccionadoId}
               onCompletarDatosMaestros={handleCompletarDatosMaestros}
               onDividirPedidoExcedido={handleDividirPedidoExcedido}
+              onIrCubicaje={(idPed) => {
+                setPedidoSeleccionadoId(idPed);
+                setModuloActivo('cubicaje');
+              }}
               onValidarPedidoParaFlota={(idPed) => {
                 setPedidoSeleccionadoId(idPed);
                 setModuloActivo('flota');
@@ -523,13 +528,7 @@ export function App() {
               onReintentarConexion={() => setWmsConectado(true)}
             />
           )}
-        </div>
 
-        <div
-          role="tabpanel"
-          aria-labelledby="tab-flota"
-          hidden={moduloActivo !== 'flota'}
-        >
           {moduloActivo === 'flota' && (
             <FlotaAsignacionModule
               pedidos={pedidos}
@@ -546,15 +545,10 @@ export function App() {
               }}
             />
           )}
-        </div>
 
-        <div
-          role="tabpanel"
-          aria-labelledby="tab-rutas"
-          hidden={moduloActivo !== 'rutas'}
-        >
-          {moduloActivo === 'rutas' && (
+          {(moduloActivo === 'rutas' || moduloActivo === 'trazabilidad') && (
             <RutasDespachosModule
+              vistaSubmodulo={moduloActivo}
               asignaciones={asignaciones}
               pedidos={pedidos}
               vehiculos={vehiculos}
@@ -573,13 +567,7 @@ export function App() {
               onFinalizarOExcepcionDespacho={handleFinalizarOExcepcionDespacho}
             />
           )}
-        </div>
 
-        <div
-          role="tabpanel"
-          aria-labelledby="tab-clientes"
-          hidden={moduloActivo !== 'clientes'}
-        >
           {moduloActivo === 'clientes' && (
             <ClientesCrmModule
               clientes={CLIENTES_CRM_INICIALES}
@@ -590,13 +578,7 @@ export function App() {
               }}
             />
           )}
-        </div>
 
-        <div
-          role="tabpanel"
-          aria-labelledby="tab-seguridad"
-          hidden={moduloActivo !== 'seguridad'}
-        >
           {moduloActivo === 'seguridad' && (
             <AdminSeguridadModule
               usuarios={usuarios}
@@ -612,20 +594,18 @@ export function App() {
               onRestaurarDatosSemilla={handleRestaurarDatosSemilla}
             />
           )}
-        </div>
-      </main>
+        </main>
 
-      {/* Pie de página institucional (design-taste-frontend footer.closing) */}
-      <footer className="closing bg-[var(--card)] border-t border-[var(--hairline)] py-8">
-        <div className="max-w-[1360px] mx-auto px-4 sm:px-8 flex flex-wrap items-center justify-between gap-4 text-[13px] text-[var(--muted)]">
-          <div>
-            <strong className="text-[var(--ink)]">Kira Logistic</strong> — Sistema de Planificación y Gestión de Despachos para Distribuidora Kiramar S.A.S. (Sector Industrial Guayabal, Medellín).
-          </div>
-          <div className="font-mono-tabular">
-            PPI Tercer Semestre · Tecnológico de Antioquia · Juan Esteban Camacho, Sebastian Agudelo, Hector Alejandro Muriel
-          </div>
-        </div>
-      </footer>
+        {/* Pie de página compacto del CRM */}
+        <footer className="closing px-6 py-3 bg-[var(--card)] border-t border-[var(--hairline)] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[var(--muted)]">
+          <span>
+            <strong className="text-[var(--ink)]">Kira Logistic CRM v1.3</strong> — Distribuidora Kiramar S.A.S. (CEDI Guayabal, Medellín)
+          </span>
+          <span className="font-mono-tabular">
+            PPI Tercer Semestre · Tecnológico de Antioquia · Camacho, Agudelo, Muriel
+          </span>
+        </footer>
+      </div>
     </div>
   );
 }

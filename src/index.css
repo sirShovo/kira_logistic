@@ -1,47 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  /* design-taste-frontend System Tokens — 93% Neutral Warm Stone + 1 Industrial Terracotta Accent (No Violet) */
-  --g-main: #f4f3ef;
-  --g-alt: #eae8e1;
+  /* Paleta CRM Empresarial (design-taste-frontend: 93% neutra, tinta cálida, acento terracota industrial, cero violeta) */
+  --g-main: #f5f4f0;
+  --g-alt: #ebe9e2;
+  --g-sidebar: #141413;
+  --g-sidebar-hover: #22211f;
   --g-dark: #141413;
   --card: #ffffff;
   --ink: #181715;
-  --c-text: #2e2c28;
-  --muted: #645f59;
-  --hairline: rgba(24, 23, 21, 0.12);
-  --hairline-strong: rgba(24, 23, 21, 0.22);
+  --c-text: #33312d;
+  --muted: #68635c;
+  --hairline: rgba(24, 23, 21, 0.11);
+  --hairline-strong: rgba(24, 23, 21, 0.2);
   --action: #b84a27;
   --action-hover: #9c3b1c;
-  --action-soft: #f7ece8;
+  --action-soft: #f9ede8;
 
-  /* Estados operativos sobrios */
-  --state-ok-bg: #e7f1ec;
-  --state-ok-ink: #1b5936;
-  --state-warn-bg: #f6ede0;
-  --state-warn-ink: #824d0f;
-  --state-err-bg: #f9e9e9;
-  --state-err-ink: #962627;
-  --state-info-bg: #e6eff5;
-  --state-info-ink: #1b4c6b;
+  /* Semántica de estados logísticos */
+  --state-ok-bg: #e6f2ec;
+  --state-ok-ink: #165934;
+  --state-warn-bg: #f8efe0;
+  --state-warn-ink: #854d0e;
+  --state-err-bg: #faeaea;
+  --state-err-ink: #992424;
+  --state-info-bg: #e6f0f7;
+  --state-info-ink: #1a4b6e;
 
-  /* Escala de radios (soft) */
-  --r-lg: 16px;
-  --r-md: 10px;
+  /* Radios del sistema */
+  --r-lg: 12px;
+  --r-md: 8px;
   --r-sm: 6px;
-  --r-btn: 8px;
+  --r-btn: 7px;
 
-  /* Escala de espaciado (system.md) */
-  --s-1: 4px;
-  --s-2: 8px;
-  --s-3: 12px;
-  --s-4: 16px;
-  --s-5: 24px;
-  --s-6: 32px;
-  --s-7: 48px;
-  --s-8: 64px;
-
-  --nav-h: 72px;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -54,93 +45,92 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
   background-color: var(--g-main);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Skip link (design-taste-frontend system.md) */
+/* Skip link accesible */
 .skip-link {
   position: absolute;
-  top: 12px;
-  left: 24px;
+  top: 10px;
+  left: 16px;
   z-index: 100;
-  padding: 10px 18px;
-  background: var(--ink);
+  padding: 8px 14px;
+  background: var(--action);
   color: #ffffff;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13px;
   border-radius: var(--r-btn);
   text-decoration: none;
-  transform: translateY(-160%);
-  transition: transform 0.16s ease;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
 }
 
 .skip-link:focus-visible {
   transform: translateY(0);
-  outline: 2px solid var(--action);
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
-/* Tipografía tabular y utilidades de sistema */
 .font-mono-tabular {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
-/* Superficie de tarjeta (design-taste-frontend cards.md: 1 paso sobre el fondo, borde de 1px al 12%, sin sombras difusas en reposo) */
-.surface-card {
+/* Contenedores CRM */
+.crm-card {
   background-color: var(--card);
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
 }
 
-.surface-panel {
-  background-color: var(--g-alt);
+.crm-panel {
+  background-color: var(--g-main);
   border: 1px solid var(--hairline);
   border-radius: var(--r-md);
 }
 
-/* Micro-interacciones (design-taste-frontend Rule 5) */
 .card-interactive {
-  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.18s ease,
-    box-shadow 0.18s ease;
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .card-interactive:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     border-color: var(--hairline-strong);
-    box-shadow: 0 8px 20px -8px rgba(24, 23, 21, 0.08);
+    box-shadow: 0 4px 12px -4px rgba(24, 23, 21, 0.07);
   }
 }
 
-/* Botones únicos del sistema (44px de alto mínimo, un solo acento lleno) */
+/* Botones CRM compactos y táctiles */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 20px;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
   background-color: var(--action);
   color: #ffffff;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid transparent;
   border-radius: var(--r-btn);
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.12s ease;
+  white-space: nowrap;
+  transition: background-color 0.14s ease, transform 0.1s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--action-hover);
-  transform: translateY(-1px);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -148,7 +138,7 @@ body {
 }
 
 .btn-primary:disabled {
-  opacity: 0.48;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -156,52 +146,36 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 18px;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
   background-color: var(--card);
   color: var(--ink);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid var(--hairline-strong);
   border-radius: var(--r-btn);
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+  white-space: nowrap;
+  transition: background-color 0.14s ease, border-color 0.14s ease;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--g-alt);
+  background-color: var(--g-main);
   border-color: var(--ink);
-  transform: translateY(-1px);
-}
-
-.btn-secondary:active:not(:disabled) {
-  transform: translateY(1px);
 }
 
 .btn-secondary:disabled {
-  opacity: 0.48;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 :focus-visible {
   outline: 2px solid var(--action);
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
 /* Tabs accesibles (modern-web-guidance: tabs) */
-@property --fade-start {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
-@property --fade-end {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
 .tablist-scroller {
   display: flex;
   overflow-x: auto;
@@ -218,44 +192,40 @@ body {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 0 18px;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
   background: transparent;
   border: none;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 0.15s ease;
+  transition: color 0.14s ease;
 }
 
 [role="tab"]:hover {
   color: var(--ink);
 }
 
-/* MANDATORY (modern-web-guidance tabs): Indicate selected tab from aria-selected with border pseudo-element, never changing tab dimensions */
 [role="tab"][aria-selected="true"] {
   color: var(--ink);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 [role="tab"][aria-selected="true"]::after {
   content: "";
   position: absolute;
   inset: auto 0 0;
-  border-block-end: 3px solid var(--action);
+  border-block-end: 2px solid var(--action);
 }
 
-/* Tablas adaptativas con encabezados fijos y @container (modern-web-guidance: responsive-table) */
+/* Tablas de datos CRM con encabezados fijos y @container (modern-web-guidance: responsive-table) */
 .table-wrapper {
   overflow: auto;
   max-inline-size: 100%;
-  max-block-size: min(580px, 78vh);
   container-type: inline-size;
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-md);
   background: var(--card);
 }
 
@@ -270,13 +240,15 @@ body {
   position: sticky;
   inset-block-start: 0;
   z-index: 2;
-  background: var(--g-alt);
+  background: #f8f7f4;
 }
 
 .table-wrapper thead th {
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--muted);
   border-bottom: 1px solid var(--hairline);
   white-space: nowrap;
@@ -286,20 +258,33 @@ body {
   position: sticky;
   inset-inline-start: 0;
   z-index: 1;
-  background: var(--card);
-  padding: 14px 16px;
+  background: inherit;
+  padding: 11px 14px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   border-bottom: 1px solid var(--hairline);
   white-space: nowrap;
 }
 
 .table-wrapper tbody td {
-  padding: 14px 16px;
-  font-size: 15px;
+  padding: 11px 14px;
+  font-size: 13px;
   color: var(--c-text);
   border-bottom: 1px solid var(--hairline);
   vertical-align: middle;
+}
+
+.table-wrapper tbody tr {
+  background-color: var(--card);
+  transition: background-color 0.1s ease;
+}
+
+.table-wrapper tbody tr:hover {
+  background-color: #faf8f5;
+}
+
+.table-wrapper tbody tr.row-selected {
+  background-color: var(--action-soft);
 }
 
 .table-wrapper tbody tr:last-child th,
@@ -307,12 +292,7 @@ body {
   border-bottom: none;
 }
 
-.table-wrapper tbody tr:hover th,
-.table-wrapper tbody tr:hover td {
-  background-color: #faf9f6;
-}
-
-@container (width < 640px) {
+@container (width < 560px) {
   .table-wrapper table,
   .table-wrapper thead,
   .table-wrapper tbody,
@@ -327,7 +307,7 @@ body {
   }
 
   .table-wrapper tbody tr {
-    margin: 12px;
+    margin: 10px;
     border: 1px solid var(--hairline-strong);
     border-radius: var(--r-md);
     overflow: hidden;
@@ -345,39 +325,39 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+    gap: 10px;
+    padding: 8px 12px;
   }
 
   .table-wrapper tbody td:nth-child(2)::before {
     content: var(--label-2, "Campo") ": ";
-    font-weight: 500;
+    font-weight: 600;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
   }
   .table-wrapper tbody td:nth-child(3)::before {
     content: var(--label-3, "Detalle") ": ";
-    font-weight: 500;
+    font-weight: 600;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
   }
   .table-wrapper tbody td:nth-child(4)::before {
     content: var(--label-4, "Valor") ": ";
-    font-weight: 500;
+    font-weight: 600;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
   }
   .table-wrapper tbody td:nth-child(5)::before {
     content: var(--label-5, "Estado") ": ";
-    font-weight: 500;
+    font-weight: 600;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
   }
   .table-wrapper tbody td:nth-child(6)::before {
     content: var(--label-6, "Acción") ": ";
-    font-weight: 500;
+    font-weight: 600;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
@@ -389,28 +369,28 @@ dialog:modal {
   padding: 0;
   background: var(--card);
   color: var(--ink);
-  max-width: 680px;
+  max-width: 640px;
   width: calc(100% - 32px);
-  box-shadow: 0 24px 48px -12px rgba(24, 23, 21, 0.24);
+  box-shadow: 0 24px 48px -12px rgba(24, 23, 21, 0.25);
 }
 
 dialog::backdrop {
   overflow: hidden;
   overscroll-behavior: contain;
-  background: rgba(20, 20, 19, 0.52);
+  background: rgba(20, 20, 19, 0.55);
 }
 
-/* Form Validation after interaction (modern-web-guidance: validate-input-after-interaction & design-taste-frontend system.md) */
+/* Inputs de formulario CRM (validate-input-after-interaction) */
 .field-input {
   width: 100%;
-  min-height: 48px;
-  padding: 0 14px;
-  font-size: 16px;
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 13px;
   color: var(--ink);
   background-color: var(--card);
   border: 1px solid var(--hairline-strong);
   border-radius: var(--r-sm);
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.14s ease, background-color 0.14s ease;
 }
 
 .field-input:focus {
@@ -421,8 +401,8 @@ dialog::backdrop {
 .error-msg {
   display: none;
   color: var(--state-err-ink);
-  font-size: 14px;
-  margin-top: 6px;
+  font-size: 12px;
+  margin-top: 4px;
   font-weight: 500;
 }
 
@@ -433,17 +413,4 @@ dialog::backdrop {
 
 :is(:user-invalid, .user-invalid-fallback) + .error-msg {
   display: block;
-}
-
-/* Visually hidden for polite ARIA live region */
-.visually-hidden:where(:not(:focus-within, :active)) {
-  position: absolute !important;
-  clip-path: inset(50%) !important;
-  overflow: hidden !important;
-  width: 1px !important;
-  height: 1px !important;
-  margin: -1px !important;
-  padding: 0 !important;
-  border: 0 !important;
-  white-space: nowrap !important;
 }

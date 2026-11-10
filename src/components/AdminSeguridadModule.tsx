@@ -47,6 +47,7 @@ export const AdminSeguridadModule: React.FC<AdminSeguridadModuleProps> = ({
   onCrearBackup,
   onRestaurarDatosSemilla,
 }) => {
+  const [subTab, setSubTab] = useState<'rbac' | 'backups' | 'der'>('rbac');
   const [descripcionBackup, setDescripcionBackup] = useState<string>(
     'Copia de respaldo manual de cierre de turno operativo'
   );
@@ -220,30 +221,62 @@ export const AdminSeguridadModule: React.FC<AdminSeguridadModuleProps> = ({
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Sección 1: RNF-01 y RNF-02 — Control de Acceso Basado en Roles (Clase Usuario) */}
-      <section
-        aria-labelledby="heading-rnf01"
-        className="surface-card p-5 sm:p-6"
-      >
-        <div className="flex flex-wrap items-start justify-between gap-4 mb-5 pb-4 border-b border-[var(--hairline)]">
-          <div>
-            <span className="text-[12px] font-mono-tabular font-medium text-[var(--action)]">
-              REQUISITOS NO FUNCIONALES RNF-01 Y RNF-02 · CLASE Usuario (`USUARIO`)
-            </span>
-            <h2
-              id="heading-rnf01"
-              className="text-[20px] sm:text-[22px] font-semibold text-[var(--ink)] m-0 mt-0.5"
-            >
-              Seguridad, autenticación hash y control de acceso por roles (RBAC).
-            </h2>
-          </div>
-
-          <div className="text-[13px] font-mono-tabular bg-[var(--g-main)] px-3 py-1.5 rounded-[6px] border border-[var(--hairline)]">
-            Operador autenticado: <strong>{usuarioActual.nombre}</strong>
-          </div>
+    <div className="space-y-4">
+      {/* Sub-navegación por pestañas del panel administrativo (modern-web-guidance: tabs) */}
+      <div className="crm-card px-4 pt-2 flex flex-wrap items-center justify-between gap-3">
+        <div
+          className="tablist-scroller border-b-0"
+          role="tablist"
+          aria-label="Secciones de administración y base de datos"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={subTab === 'rbac'}
+            onClick={() => setSubTab('rbac')}
+          >
+            Usuarios y Roles RBAC (RNF-01 / RNF-02)
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={subTab === 'backups'}
+            onClick={() => setSubTab('backups')}
+          >
+            Copias de Respaldo (RNF-06)
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={subTab === 'der'}
+            onClick={() => setSubTab('der')}
+          >
+            Modelo Relacional (9 Tablas DER) y Trazabilidad
+          </button>
         </div>
 
+        <div className="flex items-center gap-2 pb-2">
+          <button
+            type="button"
+            onClick={handleExportarJson}
+            className="btn-secondary !min-h-[32px] !text-[12px]"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Exportar JSON</span>
+          </button>
+          <button
+            type="button"
+            onClick={onRestaurarDatosSemilla}
+            className="btn-secondary !min-h-[32px] !text-[12px]"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Restaurar Semilla</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Sub-pestaña 1: Usuarios y Control de Acceso RBAC */}
+      {subTab === 'rbac' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {usuarios.map((u) => {
             const permisos = obtenerPermisosPorPerfil(u.perfil);
@@ -251,299 +284,256 @@ export const AdminSeguridadModule: React.FC<AdminSeguridadModuleProps> = ({
             return (
               <div
                 key={u.idUsuario}
-                className={`p-5 rounded-[14px] border flex flex-col justify-between ${
-                  esActual
-                    ? 'bg-[var(--g-main)] border-[var(--ink)]'
-                    : 'bg-[var(--card)] border-[var(--hairline)]'
+                className={`crm-card p-5 flex flex-col justify-between ${
+                  esActual ? 'border-[var(--ink)] bg-[#faf9f6]' : ''
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="font-mono-tabular text-[12px] font-semibold px-2 py-0.5 rounded bg-[var(--g-alt)] text-[var(--ink)]">
+                    <span className="font-mono-tabular text-[11px] font-semibold px-2 py-0.5 rounded bg-[var(--g-alt)] text-[var(--ink)]">
                       {u.idUsuario}
                     </span>
-                    <span className="font-mono-tabular text-[12px] px-2 py-0.5 rounded bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)]">
-                      {u.estado}
+                    <span className="font-mono-tabular text-[11px] px-2 py-0.5 rounded bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)] font-semibold">
+                      {esActual ? 'Sesión Activa' : u.estado}
                     </span>
                   </div>
 
-                  <h3 className="text-[17px] font-semibold text-[var(--ink)] m-0">
+                  <h3 className="text-[16px] font-semibold text-[var(--ink)] m-0">
                     {u.nombre}
                   </h3>
-                  <p className="text-[13px] text-[var(--muted)] m-0 mt-0.5">
+                  <p className="text-[12px] text-[var(--muted)] m-0 mt-0.5">
                     {u.cargo}
                   </p>
-                  <div className="mt-2 inline-block text-[12px] font-mono-tabular font-medium px-2.5 py-1 rounded bg-[var(--action-soft)] text-[var(--action)]">
-                    Actor UML: {u.perfil}
+                  <div className="mt-2 inline-block text-[11px] font-mono-tabular font-semibold px-2 py-0.5 rounded bg-[var(--action-soft)] text-[var(--action)]">
+                    {u.perfil}
                   </div>
 
-                  <div className="mt-3 p-2.5 rounded bg-[var(--card)] border border-[var(--hairline)] text-[11px] font-mono-tabular text-[var(--muted)] truncate">
-                    <KeyRound
-                      className="w-3.5 h-3.5 inline mr-1.5 text-[var(--ink)]"
-                      aria-hidden="true"
-                    />
-                    Hash (RNF-02): {u.contrasenaHash}
+                  <div className="mt-3 p-2 rounded bg-[var(--g-main)] border border-[var(--hairline)] text-[11px] font-mono-tabular text-[var(--muted)] truncate">
+                    <KeyRound className="w-3 h-3 inline mr-1 text-[var(--ink)]" />
+                    {u.contrasenaHash}
                   </div>
 
-                  <ul className="mt-3 pl-4 space-y-1 text-[13px] text-[var(--c-text)]">
+                  <ul className="mt-3 pl-4 space-y-1 text-[12px] text-[var(--c-text)]">
                     {permisos.map((perm) => (
                       <li key={perm}>{perm}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[var(--hairline)] text-[12px] font-mono-tabular text-[var(--muted)]">
-                  Correo: {u.emailCorporativo}
+                <div className="mt-4 pt-2.5 border-t border-[var(--hairline)] text-[11px] font-mono-tabular text-[var(--muted)]">
+                  {u.emailCorporativo}
                 </div>
               </div>
             );
           })}
         </div>
-      </section>
+      )}
 
-      {/* Sección 2: RNF-06 — Respaldo y Recuperación de Información */}
-      <section
-        aria-labelledby="heading-rnf06"
-        className="surface-card p-5 sm:p-6"
-      >
-        <div className="flex flex-wrap items-start justify-between gap-4 mb-5 pb-4 border-b border-[var(--hairline)]">
-          <div>
-            <span className="text-[12px] font-mono-tabular font-medium text-[var(--action)]">
-              REQUISITO NO FUNCIONAL RNF-06 · CASO DE USO Gestionar Copias de Respaldo
-            </span>
-            <h2
-              id="heading-rnf06"
-              className="text-[20px] font-semibold text-[var(--ink)] m-0 mt-0.5"
-            >
-              Respaldo de información logística y recuperación ante contingencias.
-            </h2>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
+      {/* Sub-pestaña 2: Copias de Respaldo (RNF-06) */}
+      {subTab === 'backups' && (
+        <div className="crm-card p-5 space-y-4">
+          <div className="flex flex-wrap items-end gap-3 p-3.5 rounded-[8px] bg-[var(--g-main)] border border-[var(--hairline)]">
+            <div className="flex-1 min-w-[240px]">
+              <label
+                htmlFor="desc-backup"
+                className="block text-[12px] font-medium text-[var(--ink)] mb-1"
+              >
+                Etiqueta de la copia de respaldo (`Gestionar Copias de Respaldo`)
+              </label>
+              <input
+                id="desc-backup"
+                type="text"
+                value={descripcionBackup}
+                onChange={(e) => setDescripcionBackup(e.target.value)}
+                className="field-input"
+              />
+            </div>
             <button
               type="button"
-              onClick={handleExportarJson}
-              className="btn-secondary !min-h-[40px] !text-[13px]"
+              onClick={() => onCrearBackup(descripcionBackup)}
+              className="btn-primary"
             >
-              <Download className="w-4 h-4" aria-hidden="true" />
-              <span>Exportar base de datos (.JSON)</span>
-            </button>
-            <button
-              type="button"
-              onClick={onRestaurarDatosSemilla}
-              className="btn-secondary !min-h-[40px] !text-[13px]"
-            >
-              <RotateCcw className="w-4 h-4" aria-hidden="true" />
-              <span>Restaurar estado inicial de demostración</span>
+              <Archive className="w-4 h-4" />
+              <span>Crear instantánea de respaldo</span>
             </button>
           </div>
-        </div>
 
-        <div className="flex flex-wrap items-end gap-3 mb-5 p-4 rounded-[10px] bg-[var(--g-main)] border border-[var(--hairline)]">
-          <div className="flex-1 min-w-[240px]">
-            <label
-              htmlFor="desc-backup"
-              className="block text-[13px] font-medium text-[var(--ink)] mb-1"
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Historial de copias de respaldo"
+            className="table-wrapper border border-[var(--hairline)] rounded-[8px]"
+          >
+            <table
+              style={
+                {
+                  '--label-2': '"Fecha / Hora"',
+                  '--label-3': '"Responsable"',
+                  '--label-4': '"Descripción"',
+                  '--label-5': '"Registros"',
+                  '--label-6': '"Estado"',
+                } as React.CSSProperties
+              }
             >
-              Etiqueta o motivo de la copia de respaldo (RNF-06)
-            </label>
-            <input
-              id="desc-backup"
-              type="text"
-              value={descripcionBackup}
-              onChange={(e) => setDescripcionBackup(e.target.value)}
-              className="field-input !min-h-[42px]"
-            />
-          </div>
-          <button
-            type="button"
-            onClick={() => onCrearBackup(descripcionBackup)}
-            className="btn-primary !min-h-[42px]"
-          >
-            <Archive className="w-4 h-4" aria-hidden="true" />
-            <span>Generar instantánea de respaldo</span>
-          </button>
-        </div>
-
-        <div
-          tabIndex={0}
-          role="region"
-          aria-label="Historial de copias de respaldo"
-          className="table-wrapper"
-        >
-          <table
-            style={
-              {
-                '--label-2': '"Fecha y Hora"',
-                '--label-3': '"Autor"',
-                '--label-4': '"Descripción"',
-                '--label-5': '"Registros Protegidos"',
-                '--label-6': '"Estado"',
-              } as React.CSSProperties
-            }
-          >
-            <thead>
-              <tr>
-                <th scope="col">ID Respaldo</th>
-                <th scope="col">Fecha / Hora</th>
-                <th scope="col">Responsable</th>
-                <th scope="col">Descripción de la Instantánea</th>
-                <th scope="col">Volumen de Registros</th>
-                <th scope="col">Verificación</th>
-              </tr>
-            </thead>
-            <tbody>
-              {backups.map((b) => (
-                <tr key={b.idSnapshot}>
-                  <th scope="row" className="font-mono-tabular">
-                    {b.idSnapshot}
-                  </th>
-                  <td className="font-mono-tabular text-[13px]">
-                    {b.fechaHora}
-                  </td>
-                  <td>{b.autor}</td>
-                  <td>{b.descripcion}</td>
-                  <td className="font-mono-tabular text-[13px]">
-                    {b.totalPedidos} pedidos · {b.totalDespachos} despachos ·{' '}
-                    {b.totalEventosTrazabilidad} eventos
-                  </td>
-                  <td>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[12px] font-mono-tabular bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)]">
-                      <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
-                      Íntegro
-                    </span>
-                  </td>
+              <thead>
+                <tr>
+                  <th scope="col">ID Instantánea</th>
+                  <th scope="col">Fecha y Hora</th>
+                  <th scope="col">Responsable</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Volumen Protegido</th>
+                  <th scope="col">Estado</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {backups.map((b) => (
+                  <tr key={b.idSnapshot}>
+                    <th scope="row" className="font-mono-tabular">
+                      {b.idSnapshot}
+                    </th>
+                    <td className="font-mono-tabular text-[12px]">
+                      {b.fechaHora}
+                    </td>
+                    <td>{b.autor}</td>
+                    <td>{b.descripcion}</td>
+                    <td className="font-mono-tabular text-[12px]">
+                      {b.totalPedidos} pedidos · {b.totalDespachos} despachos ·{' '}
+                      {b.totalEventosTrazabilidad} eventos
+                    </td>
+                    <td>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono-tabular bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)] font-semibold">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Verificado
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </section>
+      )}
 
-      {/* Sección 3: RNF-05 + Secciones 4.1 y 4.2 — Auditoría de las 9 Clases y Tablas Relacionales (FO-DCL / FO-DER) */}
-      <section
-        aria-labelledby="heading-der"
-        className="surface-card p-5 sm:p-6"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-          <div>
-            <span className="text-[12px] font-mono-tabular font-medium text-[var(--muted)]">
-              SECCIONES 4.1 (FO-DCL) Y 4.2 (FO-DER) · RNF-05 INTEGRIDAD Y CONSISTENCIA DE LA INFORMACIÓN
-            </span>
-            <h2
-              id="heading-der"
-              className="text-[20px] font-semibold text-[var(--ink)] m-0 mt-0.5"
+      {/* Sub-pestaña 3: Modelo Relacional (9 Tablas) y Matriz de Trazabilidad */}
+      {subTab === 'der' && (
+        <div className="space-y-4">
+          <div className="crm-card overflow-hidden">
+            <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center justify-between">
+              <span className="font-semibold text-[13px] text-[var(--ink)] flex items-center gap-1.5">
+                <Database className="w-4 h-4 text-[var(--action)]" />
+                Auditoría de las 9 Entidades del Modelo Entidad-Relación (`FO-DER` / `FO-DCL`)
+              </span>
+              <span className="text-[11px] font-mono-tabular text-[var(--state-ok-ink)] bg-[var(--state-ok-bg)] px-2 py-0.5 rounded font-semibold">
+                Integridad Referencial 100%
+              </span>
+            </div>
+
+            <div
+              tabIndex={0}
+              role="region"
+              aria-label="Auditoría de las 9 entidades del modelo de datos"
+              className="table-wrapper"
             >
-              Estado en tiempo real de las 9 entidades del Modelo Entidad-Relación y Diagrama de Clases.
-            </h2>
+              <table
+                style={
+                  {
+                    '--label-2': '"Clase"',
+                    '--label-3': '"PK"',
+                    '--label-4': '"FK"',
+                    '--label-5': '"Cardinalidad"',
+                    '--label-6': '"Registros"',
+                  } as React.CSSProperties
+                }
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">Tabla DER</th>
+                    <th scope="col">Clase UML</th>
+                    <th scope="col">Clave Primaria (PK)</th>
+                    <th scope="col">Claves Foráneas (FK)</th>
+                    <th scope="col">Relación y Cardinalidad</th>
+                    <th scope="col">Filas Activas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entidadesDer.map((ent) => (
+                    <tr key={ent.tabla}>
+                      <th scope="row" className="font-mono-tabular">
+                        {ent.tabla}
+                      </th>
+                      <td className="font-mono-tabular font-semibold text-[var(--ink)]">
+                        {ent.clase}
+                      </td>
+                      <td className="font-mono-tabular text-[12px]">{ent.pk}</td>
+                      <td className="font-mono-tabular text-[12px]">{ent.fk}</td>
+                      <td className="text-[12px]">{ent.relacion}</td>
+                      <td className="font-mono-tabular font-semibold text-[var(--action)]">
+                        {ent.registros}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 text-[13px] font-mono-tabular px-3 py-1 rounded bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)]">
-            <Database className="w-4 h-4" aria-hidden="true" />
-            Integridad referencial: 100% verificada
-          </span>
-        </div>
 
-        <div
-          tabIndex={0}
-          role="region"
-          aria-label="Auditoría de las 9 entidades del modelo de datos"
-          className="table-wrapper mb-6"
-        >
-          <table
-            style={
-              {
-                '--label-2': '"Clase UML"',
-                '--label-3': '"Clave Primaria (PK)"',
-                '--label-4': '"Claves Foráneas (FK)"',
-                '--label-5': '"Cardinalidad y Relación"',
-                '--label-6': '"Filas Activas"',
-              } as React.CSSProperties
-            }
-          >
-            <thead>
-              <tr>
-                <th scope="col">Entidad DER</th>
-                <th scope="col">Clase FO-DCL</th>
-                <th scope="col">Clave Primaria (PK)</th>
-                <th scope="col">Claves Foráneas (FK)</th>
-                <th scope="col">Cardinalidad y Asociación</th>
-                <th scope="col">Registros en Memoria</th>
-              </tr>
-            </thead>
-            <tbody>
-              {entidadesDer.map((ent) => (
-                <tr key={ent.tabla}>
-                  <th scope="row" className="font-mono-tabular">
-                    {ent.tabla}
-                  </th>
-                  <td className="font-mono-tabular font-medium text-[var(--ink)]">
-                    {ent.clase}
-                  </td>
-                  <td className="font-mono-tabular text-[13px]">{ent.pk}</td>
-                  <td className="font-mono-tabular text-[13px]">{ent.fk}</td>
-                  <td className="text-[14px]">{ent.relacion}</td>
-                  <td className="font-mono-tabular font-semibold text-[var(--action)]">
-                    {ent.registros} activo(s)
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          <div className="crm-card overflow-hidden">
+            <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-[var(--action)]" />
+              <span className="font-semibold text-[13px] text-[var(--ink)]">
+                Matriz de Trazabilidad de Requisitos (Sección 3.3 — RU → RF → UC → Clases)
+              </span>
+            </div>
 
-        {/* Sección 3.3: Planilla de Trazabilidad de Requisitos */}
-        <h3 className="text-[17px] font-semibold text-[var(--ink)] mb-3 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-[var(--action)]" aria-hidden="true" />
-          <span>
-            Sección 3.3 — Planilla de Trazabilidad de Requisitos (RU → RF → Caso de Uso → Clases)
-          </span>
-        </h3>
-
-        <div
-          tabIndex={0}
-          role="region"
-          aria-label="Planilla de trazabilidad de requisitos"
-          className="table-wrapper"
-        >
-          <table
-            style={
-              {
-                '--label-2': '"Requisito Funcional"',
-                '--label-3': '"Caso de Uso"',
-                '--label-4': '"Clases Asociadas"',
-                '--label-5': '"Estado"',
-              } as React.CSSProperties
-            }
-          >
-            <thead>
-              <tr>
-                <th scope="col">Req. Usuario</th>
-                <th scope="col">Requisito Funcional (FO-ERS)</th>
-                <th scope="col">Caso de Uso Documentado</th>
-                <th scope="col">Clases del Dominio</th>
-                <th scope="col">Cobertura</th>
-              </tr>
-            </thead>
-            <tbody>
-              {matrizTrazabilidad.map((row) => (
-                <tr key={row.ru}>
-                  <th scope="row" className="font-mono-tabular">
-                    {row.ru}
-                  </th>
-                  <td className="font-medium text-[var(--ink)]">{row.rf}</td>
-                  <td className="text-[14px]">{row.uc}</td>
-                  <td className="font-mono-tabular text-[13px]">{row.clases}</td>
-                  <td>
-                    <span className="inline-flex px-2.5 py-0.5 rounded text-[12px] font-mono-tabular bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)]">
-                      Implementado
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            <div
+              tabIndex={0}
+              role="region"
+              aria-label="Planilla de trazabilidad de requisitos"
+              className="table-wrapper"
+            >
+              <table
+                style={
+                  {
+                    '--label-2': '"Requisito Funcional"',
+                    '--label-3': '"Caso de Uso"',
+                    '--label-4': '"Clases"',
+                    '--label-5': '"Estado"',
+                  } as React.CSSProperties
+                }
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">Req. Usuario</th>
+                    <th scope="col">Requisito Funcional</th>
+                    <th scope="col">Caso de Uso</th>
+                    <th scope="col">Clases del Dominio</th>
+                    <th scope="col">Cobertura</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matrizTrazabilidad.map((row) => (
+                    <tr key={row.ru}>
+                      <th scope="row" className="font-mono-tabular">
+                        {row.ru}
+                      </th>
+                      <td className="font-medium text-[var(--ink)]">{row.rf}</td>
+                      <td>{row.uc}</td>
+                      <td className="font-mono-tabular text-[12px]">
+                        {row.clases}
+                      </td>
+                      <td>
+                        <span className="inline-flex px-2 py-0.5 rounded text-[11px] font-mono-tabular bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)] font-semibold">
+                          100% Activo
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </section>
+      )}
     </div>
   );
 };
