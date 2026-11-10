@@ -335,15 +335,15 @@ export const FlotaAsignacionModule: React.FC<FlotaAsignacionModuleProps> = ({
                         <span>Capacidad: {veh.capacidadKg.toLocaleString('es-CO')} kg</span>
                         <span className="font-semibold">Uso: {pctPeso}%</span>
                       </div>
-                      <div className="w-full h-1.5 rounded-full bg-[var(--g-alt)] overflow-hidden">
+                      <div className="w-full h-1.5 rounded-full bg-[rgba(185,192,218,0.3)] overflow-hidden">
                         <div
                           className="h-full rounded-full"
                           style={{
                             width: `${Math.min(100, pctPeso)}%`,
-                            backgroundColor:
+                            background:
                               pctPeso > 100
                                 ? 'var(--state-err-ink)'
-                                : 'var(--action)',
+                                : 'linear-gradient(90deg, #c4e7d4 0%, #b9c0da 100%)',
                           }}
                         />
                       </div>
@@ -354,15 +354,15 @@ export const FlotaAsignacionModule: React.FC<FlotaAsignacionModuleProps> = ({
                         <span>Volumen: {veh.volumenM3} m³</span>
                         <span className="font-semibold">Uso: {pctVol}%</span>
                       </div>
-                      <div className="w-full h-1.5 rounded-full bg-[var(--g-alt)] overflow-hidden">
+                      <div className="w-full h-1.5 rounded-full bg-[rgba(185,192,218,0.3)] overflow-hidden">
                         <div
                           className="h-full rounded-full"
                           style={{
                             width: `${Math.min(100, pctVol)}%`,
-                            backgroundColor:
+                            background:
                               pctVol > 100
                                 ? 'var(--state-err-ink)'
-                                : '#165934',
+                                : 'linear-gradient(90deg, #c4e7d4 0%, #b9c0da 100%)',
                           }}
                         />
                       </div>
@@ -403,7 +403,7 @@ export const FlotaAsignacionModule: React.FC<FlotaAsignacionModuleProps> = ({
 
         {/* Columna Derecha (5 cols): Reservas de Transporte Registradas (`ASIGNACION`) */}
         <aside className="lg:col-span-5 crm-card overflow-hidden sticky top-[74px]">
-          <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[rgba(196,218,207,0.18)] flex items-center justify-between">
             <span className="font-semibold text-[13px] text-[var(--ink)]">
               Reservas Registradas (`ASIGNACION` — UC-04)
             </span>

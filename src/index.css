@@ -1,38 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  /* Paleta CRM Empresarial (design-taste-frontend: 93% neutra, tinta cálida, acento terracota industrial, cero violeta) */
-  --g-main: #f5f4f0;
-  --g-alt: #ebe9e2;
-  --g-sidebar: #141413;
-  --g-sidebar-hover: #22211f;
-  --g-dark: #141413;
+  /* ==========================================================================
+     PALETA CORPORATIVA KIRA LOGISTIC (Usuario & tasteskill.dev)
+     ========================================================================== */
+  /* CSS HEX */
+  --frosted-mint: #c4e7d4;
+  --ash-grey: #c4dacf;
+  --pale-slate: #b9c0da;
+  --lilac-ash: #998da0;
+  --taupe-grey: #63585e;
+
+  /* CSS HSL */
+  --frosted-mint-hsl: hsla(147, 42%, 84%, 1);
+  --ash-grey-hsl: hsla(150, 23%, 81%, 1);
+  --pale-slate-hsl: hsla(227, 31%, 79%, 1);
+  --lilac-ash-hsl: hsla(278, 9%, 59%, 1);
+  --taupe-grey-hsl: hsla(327, 6%, 37%, 1);
+
+  /* CSS RGB */
+  --frosted-mint-rgb: rgba(196, 231, 212, 1);
+  --ash-grey-rgb: rgba(196, 218, 207, 1);
+  --pale-slate-rgb: rgba(185, 192, 218, 1);
+  --lilac-ash-rgb: rgba(153, 141, 160, 1);
+  --taupe-grey-rgb: rgba(99, 88, 94, 1);
+
+  /* Gradientes de la Paleta de 5 Tonos (Requeridos por el usuario) */
+  --gradient-top: linear-gradient(0deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-right: linear-gradient(90deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-bottom: linear-gradient(180deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-left: linear-gradient(270deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-top-right: linear-gradient(45deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-bottom-right: linear-gradient(135deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-top-left: linear-gradient(225deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-bottom-left: linear-gradient(315deg, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+  --gradient-radial: radial-gradient(circle, #c4e7d4, #c4dacf, #b9c0da, #998da0, #63585e);
+
+  /* Gradientes de Acento y Superficie */
+  --gradient-accent-bar: linear-gradient(90deg, #c4e7d4 0%, #b9c0da 50%, #998da0 100%);
+  --gradient-accent-soft: linear-gradient(135deg, rgba(196, 231, 212, 0.4) 0%, rgba(185, 192, 218, 0.3) 100%);
+
+  /* Superficies de Canvas y Paneles */
+  --g-canvas: #f6f8f7;
+  --g-main: #f6f8f7;
+  --g-lane-tray: #eef3f0;
+  --g-lane-tray-border: rgba(99, 88, 94, 0.1);
+  --g-sidebar: #1e191d;
+  --g-sidebar-hover: #2b2329;
+  --g-sidebar-active: #392f37;
+
   --card: #ffffff;
-  --ink: #181715;
-  --c-text: #33312d;
-  --muted: #68635c;
-  --hairline: rgba(24, 23, 21, 0.11);
-  --hairline-strong: rgba(24, 23, 21, 0.2);
-  --action: #b84a27;
-  --action-hover: #9c3b1c;
-  --action-soft: #f9ede8;
+  --card-glass: rgba(255, 255, 255, 0.9);
+  --c-text: #2c252a;
+  --ink: #1e191d;
+  --ink-secondary: #4d444a;
+  --muted: #746c72;
 
-  /* Semántica de estados logísticos */
-  --state-ok-bg: #e6f2ec;
-  --state-ok-ink: #165934;
-  --state-warn-bg: #f8efe0;
-  --state-warn-ink: #854d0e;
-  --state-err-bg: #faeaea;
-  --state-err-ink: #992424;
-  --state-info-bg: #e6f0f7;
-  --state-info-ink: #1a4b6e;
+  /* Bordes de alta definición */
+  --hairline: rgba(99, 88, 94, 0.12);
+  --hairline-subtle: rgba(99, 88, 94, 0.08);
+  --hairline-strong: rgba(99, 88, 94, 0.22);
+  --hairline-accent: rgba(185, 192, 218, 0.5);
 
-  /* Radios del sistema */
-  --r-lg: 12px;
+  /* Acciones y Botones */
+  --action: #63585e;
+  --action-hover: #4e444a;
+  --action-active: #393136;
+  --action-mint: #23553c;
+
+  /* Estados Armónicos con la Paleta */
+  --state-ok-bg: rgba(196, 231, 212, 0.38);
+  --state-ok-ink: #1b4731;
+  --state-ok-border: #c4e7d4;
+
+  --state-info-bg: rgba(185, 192, 218, 0.35);
+  --state-info-ink: #2b3554;
+  --state-info-border: #b9c0da;
+
+  --state-warn-bg: rgba(235, 222, 198, 0.45);
+  --state-warn-ink: #5c3b16;
+  --state-warn-border: rgba(196, 175, 140, 0.6);
+
+  --state-err-bg: rgba(235, 202, 210, 0.42);
+  --state-err-ink: #632030;
+  --state-err-border: rgba(180, 115, 130, 0.55);
+
+  /* Luces interiores y sombras multicapa (tasteskill cards.md) */
+  --shadow-card: 0 1px 3px rgba(99, 88, 94, 0.05), 0 6px 18px -2px rgba(99, 88, 94, 0.06);
+  --shadow-card-hover: 0 3px 8px rgba(99, 88, 94, 0.08), 0 12px 28px -4px rgba(99, 88, 94, 0.12);
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+
+  /* Radios */
+  --r-xl: 14px;
+  --r-lg: 10px;
   --r-md: 8px;
   --r-sm: 6px;
   --r-btn: 7px;
 
+  /* Tipografías */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -45,8 +110,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background-color: var(--g-main);
+  min-height: 100%;
+  background-color: var(--g-canvas);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 14px;
@@ -55,14 +120,26 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Skip link accesible */
+/* ==========================================================================
+   FONDO AMBIENTAL DE ALTA CALIDAD (Frosted Mint + Pale Slate + Ash Grey)
+   ========================================================================== */
+.crm-ambient-bg {
+  background-color: #f7f9f8;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(196, 231, 212, 0.45) 0px, transparent 55%),
+    radial-gradient(at 100% 0%, rgba(185, 192, 218, 0.4) 0px, transparent 55%),
+    radial-gradient(at 100% 100%, rgba(196, 218, 207, 0.35) 0px, transparent 55%),
+    radial-gradient(at 0% 100%, rgba(153, 141, 160, 0.22) 0px, transparent 55%);
+  background-attachment: fixed;
+}
+
 .skip-link {
   position: absolute;
   top: 10px;
   left: 16px;
   z-index: 100;
   padding: 8px 14px;
-  background: var(--action);
+  background: var(--taupe-grey);
   color: #ffffff;
   font-weight: 600;
   font-size: 13px;
@@ -74,7 +151,7 @@ body {
 
 .skip-link:focus-visible {
   transform: translateY(0);
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--frosted-mint);
   outline-offset: 2px;
 }
 
@@ -83,34 +160,39 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Contenedores CRM */
+/* ==========================================================================
+   TARJETAS Y PANELES (tasteskill cards.md: 1 paso off the page + inner highlight)
+   ========================================================================== */
 .crm-card {
-  background-color: var(--card);
+  background: var(--card);
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  box-shadow: var(--inner-highlight), var(--shadow-card);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
-.crm-panel {
-  background-color: var(--g-main);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-md);
+.crm-lane-tray {
+  background-color: var(--g-lane-tray);
+  border: 1px solid var(--g-lane-tray-border);
+  border-radius: var(--r-xl);
 }
 
 .card-interactive {
-  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .card-interactive:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     border-color: var(--hairline-strong);
-    box-shadow: 0 4px 12px -4px rgba(24, 23, 21, 0.07);
+    box-shadow: var(--inner-highlight), var(--shadow-card-hover);
   }
 }
 
-/* Botones CRM compactos y táctiles */
+/* ==========================================================================
+   BOTONES Y CONTROLES (design-taste-frontend system.md)
+   ========================================================================== */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -118,19 +200,22 @@ body {
   gap: 6px;
   min-height: 36px;
   padding: 0 14px;
-  background-color: var(--action);
+  background-color: var(--taupe-grey);
   color: #ffffff;
   font-size: 13px;
   font-weight: 500;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--r-btn);
+  box-shadow: 0 1px 3px rgba(99, 88, 94, 0.18);
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.14s ease, transform 0.1s ease;
+  transition: background-color 0.14s ease, transform 0.1s ease, box-shadow 0.14s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--action-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(99, 88, 94, 0.24);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -149,20 +234,21 @@ body {
   gap: 6px;
   min-height: 36px;
   padding: 0 12px;
-  background-color: var(--card);
+  background-color: #ffffff;
   color: var(--ink);
   font-size: 13px;
   font-weight: 500;
   border: 1px solid var(--hairline-strong);
   border-radius: var(--r-btn);
+  box-shadow: 0 1px 2px rgba(99, 88, 94, 0.04);
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.14s ease, border-color 0.14s ease;
+  transition: background-color 0.14s ease, border-color 0.14s ease, transform 0.1s ease;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--g-main);
-  border-color: var(--ink);
+  background-color: rgba(196, 218, 207, 0.22);
+  border-color: var(--taupe-grey);
 }
 
 .btn-secondary:disabled {
@@ -171,57 +257,13 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--action);
+  outline: 2px solid var(--taupe-grey);
   outline-offset: 1px;
 }
 
-/* Tabs accesibles (modern-web-guidance: tabs) */
-.tablist-scroller {
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
-  border-bottom: 1px solid var(--hairline);
-}
-
-.tablist-scroller::-webkit-scrollbar {
-  display: none;
-}
-
-[role="tab"] {
-  position: relative;
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 40px;
-  padding: 0 14px;
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.14s ease;
-}
-
-[role="tab"]:hover {
-  color: var(--ink);
-}
-
-[role="tab"][aria-selected="true"] {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-[role="tab"][aria-selected="true"]::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0;
-  border-block-end: 2px solid var(--action);
-}
-
-/* Tablas de datos CRM con encabezados fijos y @container (modern-web-guidance: responsive-table) */
+/* ==========================================================================
+   TABLAS ADAPTATIVAS CRM (modern-web-guidance: responsive-table)
+   ========================================================================== */
 .table-wrapper {
   overflow: auto;
   max-inline-size: 100%;
@@ -240,7 +282,8 @@ body {
   position: sticky;
   inset-block-start: 0;
   z-index: 2;
-  background: #f8f7f4;
+  background: rgba(196, 218, 207, 0.25);
+  backdrop-filter: blur(8px);
 }
 
 .table-wrapper thead th {
@@ -248,8 +291,8 @@ body {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted);
+  letter-spacing: 0.05em;
+  color: var(--taupe-grey);
   border-bottom: 1px solid var(--hairline);
   white-space: nowrap;
 }
@@ -269,22 +312,22 @@ body {
 .table-wrapper tbody td {
   padding: 11px 14px;
   font-size: 13px;
-  color: var(--c-text);
+  color: var(--ink);
   border-bottom: 1px solid var(--hairline);
   vertical-align: middle;
 }
 
 .table-wrapper tbody tr {
   background-color: var(--card);
-  transition: background-color 0.1s ease;
+  transition: background-color 0.12s ease;
 }
 
 .table-wrapper tbody tr:hover {
-  background-color: #faf8f5;
+  background-color: rgba(196, 231, 212, 0.18);
 }
 
 .table-wrapper tbody tr.row-selected {
-  background-color: var(--action-soft);
+  background-color: rgba(185, 192, 218, 0.26);
 }
 
 .table-wrapper tbody tr:last-child th,
@@ -292,109 +335,43 @@ body {
   border-bottom: none;
 }
 
-@container (width < 560px) {
-  .table-wrapper table,
-  .table-wrapper thead,
-  .table-wrapper tbody,
-  .table-wrapper tr,
-  .table-wrapper th,
-  .table-wrapper td {
-    display: block;
-  }
-
-  .table-wrapper thead {
-    display: none;
-  }
-
-  .table-wrapper tbody tr {
-    margin: 10px;
-    border: 1px solid var(--hairline-strong);
-    border-radius: var(--r-md);
-    overflow: hidden;
-  }
-
-  .table-wrapper tbody th {
-    position: sticky;
-    inset-block-start: 0;
-    z-index: 2;
-    background: var(--g-alt);
-    border-bottom: 1px solid var(--hairline);
-  }
-
-  .table-wrapper tbody td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-  }
-
-  .table-wrapper tbody td:nth-child(2)::before {
-    content: var(--label-2, "Campo") ": ";
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 12px;
-  }
-  .table-wrapper tbody td:nth-child(3)::before {
-    content: var(--label-3, "Detalle") ": ";
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 12px;
-  }
-  .table-wrapper tbody td:nth-child(4)::before {
-    content: var(--label-4, "Valor") ": ";
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 12px;
-  }
-  .table-wrapper tbody td:nth-child(5)::before {
-    content: var(--label-5, "Estado") ": ";
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 12px;
-  }
-  .table-wrapper tbody td:nth-child(6)::before {
-    content: var(--label-6, "Acción") ": ";
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 12px;
-  }
-}
-
-/* Native Dialog (modern-web-guidance: dialog) */
+/* ==========================================================================
+   FORMULARIOS Y MODALES NATIVOS (modern-web-guidance: dialog)
+   ========================================================================== */
 dialog:modal {
   overscroll-behavior: contain;
   border: 1px solid var(--hairline-strong);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
   padding: 0;
   background: var(--card);
   color: var(--ink);
   max-width: 640px;
   width: calc(100% - 32px);
-  box-shadow: 0 24px 48px -12px rgba(24, 23, 21, 0.25);
+  box-shadow: 0 24px 64px -12px rgba(99, 88, 94, 0.35);
 }
 
 dialog::backdrop {
   overflow: hidden;
   overscroll-behavior: contain;
-  background: rgba(20, 20, 19, 0.55);
+  background: rgba(30, 25, 29, 0.65);
+  backdrop-filter: blur(4px);
 }
 
-/* Inputs de formulario CRM (validate-input-after-interaction) */
 .field-input {
   width: 100%;
   min-height: 38px;
   padding: 0 12px;
   font-size: 13px;
   color: var(--ink);
-  background-color: var(--card);
+  background-color: #ffffff;
   border: 1px solid var(--hairline-strong);
   border-radius: var(--r-sm);
-  transition: border-color 0.14s ease, background-color 0.14s ease;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
 }
 
 .field-input:focus {
-  border-color: var(--action);
+  border-color: var(--taupe-grey);
+  box-shadow: 0 0 0 3px rgba(185, 192, 218, 0.4);
   outline: none;
 }
 

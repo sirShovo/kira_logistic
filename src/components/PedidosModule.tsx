@@ -142,33 +142,64 @@ export const PedidosModule: React.FC<PedidosModuleProps> = ({
   const renderBadgeEstado = (estado: Pedido['estadoPedido']) => {
     const estilos: Record<
       Pedido['estadoPedido'],
-      { bg: string; ink: string }
+      { bg: string; ink: string; border: string }
     > = {
-      Pendiente: { bg: 'var(--g-alt)', ink: 'var(--c-text)' },
-      Validado: { bg: 'var(--state-ok-bg)', ink: 'var(--state-ok-ink)' },
+      Pendiente: {
+        bg: 'rgba(153, 141, 160, 0.16)',
+        ink: '#453849',
+        border: 'rgba(153, 141, 160, 0.4)',
+      },
+      Validado: {
+        bg: 'var(--state-ok-bg)',
+        ink: 'var(--state-ok-ink)',
+        border: 'var(--state-ok-border)',
+      },
       'Requiere Datos Maestros': {
         bg: 'var(--state-warn-bg)',
         ink: 'var(--state-warn-ink)',
+        border: 'var(--state-warn-border)',
       },
       'Excede Límites': {
         bg: 'var(--state-err-bg)',
         ink: 'var(--state-err-ink)',
+        border: 'var(--state-err-border)',
       },
-      Asignado: { bg: 'var(--state-info-bg)', ink: 'var(--state-info-ink)' },
-      'En Ruta': { bg: 'var(--state-info-bg)', ink: 'var(--state-info-ink)' },
-      Completado: { bg: 'var(--state-ok-bg)', ink: 'var(--state-ok-ink)' },
-      Devolución: { bg: 'var(--state-err-bg)', ink: 'var(--state-err-ink)' },
+      Asignado: {
+        bg: 'var(--state-info-bg)',
+        ink: 'var(--state-info-ink)',
+        border: 'var(--state-info-border)',
+      },
+      'En Ruta': {
+        bg: 'var(--state-info-bg)',
+        ink: 'var(--state-info-ink)',
+        border: 'var(--state-info-border)',
+      },
+      Completado: {
+        bg: 'var(--state-ok-bg)',
+        ink: 'var(--state-ok-ink)',
+        border: 'var(--state-ok-border)',
+      },
+      Devolución: {
+        bg: 'var(--state-err-bg)',
+        ink: 'var(--state-err-ink)',
+        border: 'var(--state-err-border)',
+      },
       Reprogramado: {
         bg: 'var(--state-warn-bg)',
         ink: 'var(--state-warn-ink)',
+        border: 'var(--state-warn-border)',
       },
     };
 
     const actual = estilos[estado] || estilos.Pendiente;
     return (
       <span
-        className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono-tabular font-semibold"
-        style={{ backgroundColor: actual.bg, color: actual.ink }}
+        className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono-tabular font-semibold border"
+        style={{
+          backgroundColor: actual.bg,
+          color: actual.ink,
+          borderColor: actual.border,
+        }}
       >
         {estado}
       </span>
@@ -278,7 +309,7 @@ export const PedidosModule: React.FC<PedidosModuleProps> = ({
                 className={`px-2.5 py-1.5 rounded-[6px] text-[12px] font-medium cursor-pointer transition-colors ${
                   filtroEstado === f.id
                     ? 'bg-[var(--ink)] text-white'
-                    : 'bg-[var(--g-main)] text-[var(--c-text)] hover:bg-[var(--g-alt)]'
+                    : 'bg-white text-[var(--ink)] border border-[var(--hairline-strong)] hover:bg-[rgba(196,218,207,0.2)]'
                 }`}
               >
                 {f.label}
@@ -317,7 +348,7 @@ export const PedidosModule: React.FC<PedidosModuleProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
           {/* Columna Izquierda: Tabla de Pedidos */}
           <div className="lg:col-span-7 crm-card overflow-hidden">
-            <div className="px-4 py-3 border-b border-[var(--hairline)] flex items-center justify-between bg-[#faf9f6]">
+            <div className="px-4 py-3 border-b border-[var(--hairline)] flex items-center justify-between bg-[rgba(196,218,207,0.18)]">
               <span className="font-semibold text-[13px] text-[var(--ink)]">
                 Listado Maestro de Pedidos (`PEDIDO`)
               </span>
@@ -1073,7 +1104,7 @@ export const PedidosModule: React.FC<PedidosModuleProps> = ({
           <div className="text-[20px] font-mono-tabular font-semibold text-[var(--ink)] mt-1">
             {cargaCalculada.pesoTotalKg.toLocaleString('es-CO')}&nbsp;kg
           </div>
-          <div className="w-full h-1.5 rounded-full bg-[var(--g-alt)] mt-2 overflow-hidden">
+          <div className="w-full h-1.5 rounded-full bg-[rgba(185,192,218,0.3)] mt-2 overflow-hidden">
             <div
               className="h-full rounded-full"
               style={{
@@ -1094,7 +1125,7 @@ export const PedidosModule: React.FC<PedidosModuleProps> = ({
           <div className="text-[20px] font-mono-tabular font-semibold text-[var(--ink)] mt-1">
             {cargaCalculada.volumenTotalM3.toLocaleString('es-CO')}&nbsp;m³
           </div>
-          <div className="w-full h-1.5 rounded-full bg-[var(--g-alt)] mt-2 overflow-hidden">
+          <div className="w-full h-1.5 rounded-full bg-[rgba(185,192,218,0.3)] mt-2 overflow-hidden">
             <div
               className="h-full rounded-full"
               style={{
@@ -1123,7 +1154,7 @@ export const PedidosModule: React.FC<PedidosModuleProps> = ({
 
       {/* Tabla detallada de líneas para cubicaje */}
       <div className="crm-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center justify-between">
+        <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[rgba(196,218,207,0.18)] flex items-center justify-between">
           <span className="font-semibold text-[13px] text-[var(--ink)]">
             Desglose Físico por Línea de Producto (`LINEA_PEDIDO` — Operaciones `calcularPesoTotal()` y `calcularVolumenTotal()`)
           </span>

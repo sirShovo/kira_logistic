@@ -241,7 +241,7 @@ export const RutasDespachosModule: React.FC<RutasDespachosModuleProps> = ({
                     Secuencia de Paradas y Ventanas Horarias (`ordenEntrega`)
                   </h3>
                 </div>
-                <span className="font-mono-tabular text-[12px] px-2 py-0.5 rounded bg-[var(--g-alt)] text-[var(--ink)] font-semibold">
+                <span className="font-mono-tabular text-[12px] px-2 py-0.5 rounded bg-[rgba(185,192,218,0.25)] text-[var(--ink)] font-semibold">
                   {rutaAsociada.paradas.length} paradas
                 </span>
               </div>
@@ -701,7 +701,7 @@ export const RutasDespachosModule: React.FC<RutasDespachosModuleProps> = ({
 
             {/* Columna Derecha (7 cols): Tabla Cronológica de Trazabilidad */}
             <div className="lg:col-span-7 crm-card overflow-hidden">
-              <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center justify-between">
+              <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[rgba(196,218,207,0.18)] flex items-center justify-between">
                 <span className="font-semibold text-[13px] text-[var(--ink)]">
                   Bitácora Histórica de Eventos (`TRAZABILIDAD` — {historialDespacho.length} registros)
                 </span>
@@ -748,7 +748,7 @@ export const RutasDespachosModule: React.FC<RutasDespachosModuleProps> = ({
                           {ev.ubicacion}
                         </td>
                         <td>
-                          <span className="inline-flex px-2 py-0.5 rounded text-[11px] font-mono-tabular bg-[var(--g-alt)] text-[var(--ink)] font-semibold">
+                          <span className="inline-flex px-2 py-0.5 rounded text-[11px] font-mono-tabular bg-[rgba(196,231,212,0.35)] text-[#1b4731] border border-[#c4e7d4] font-semibold">
                             {ev.estadoEntrega}
                           </span>
                         </td>

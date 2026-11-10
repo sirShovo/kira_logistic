@@ -285,12 +285,12 @@ export const AdminSeguridadModule: React.FC<AdminSeguridadModuleProps> = ({
               <div
                 key={u.idUsuario}
                 className={`crm-card p-5 flex flex-col justify-between ${
-                  esActual ? 'border-[var(--ink)] bg-[#faf9f6]' : ''
+                  esActual ? 'border-[var(--taupe-grey)] bg-[rgba(196,231,212,0.12)] shadow-md' : ''
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="font-mono-tabular text-[11px] font-semibold px-2 py-0.5 rounded bg-[var(--g-alt)] text-[var(--ink)]">
+                    <span className="font-mono-tabular text-[11px] font-semibold px-2 py-0.5 rounded bg-[rgba(185,192,218,0.25)] text-[var(--ink)]">
                       {u.idUsuario}
                     </span>
                     <span className="font-mono-tabular text-[11px] px-2 py-0.5 rounded bg-[var(--state-ok-bg)] text-[var(--state-ok-ink)] font-semibold">
@@ -418,7 +418,7 @@ export const AdminSeguridadModule: React.FC<AdminSeguridadModuleProps> = ({
       {subTab === 'der' && (
         <div className="space-y-4">
           <div className="crm-card overflow-hidden">
-            <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center justify-between">
+            <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[rgba(196,218,207,0.18)] flex items-center justify-between">
               <span className="font-semibold text-[13px] text-[var(--ink)] flex items-center gap-1.5">
                 <Database className="w-4 h-4 text-[var(--action)]" />
                 Auditoría de las 9 Entidades del Modelo Entidad-Relación (`FO-DER` / `FO-DCL`)
@@ -478,7 +478,7 @@ export const AdminSeguridadModule: React.FC<AdminSeguridadModuleProps> = ({
           </div>
 
           <div className="crm-card overflow-hidden">
-            <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center gap-1.5">
+            <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[rgba(196,218,207,0.18)] flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-[var(--action)]" />
               <span className="font-semibold text-[13px] text-[var(--ink)]">
                 Matriz de Trazabilidad de Requisitos (Sección 3.3 — RU → RF → UC → Clases)

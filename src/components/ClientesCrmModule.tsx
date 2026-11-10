@@ -30,7 +30,7 @@ export const ClientesCrmModule: React.FC<ClientesCrmModuleProps> = ({
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
       {/* Columna Izquierda (7 cols): Tabla Directorio de Cuentas Corporativas */}
       <div className="lg:col-span-7 crm-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[#faf9f6] flex items-center justify-between">
+        <div className="px-4 py-3 border-b border-[var(--hairline)] bg-[rgba(196,218,207,0.18)] flex items-center justify-between">
           <span className="font-semibold text-[13px] text-[var(--ink)]">
             Directorio de Cuentas Corporativas — Distribuidora Kiramar S.A.S.
           </span>

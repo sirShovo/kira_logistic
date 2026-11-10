@@ -458,7 +458,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[var(--g-main)] text-[var(--ink)]">
+    <div className="min-h-screen flex crm-ambient-bg text-[var(--ink)]">
       {/* Barra Lateral Izquierda Fija (CRM Sidebar) */}
       <CrmSidebar
         moduloActivo={moduloActivo}

@@ -2,6 +2,7 @@ import type React from 'react';
 import {
   Activity,
   Box,
+  ChevronDown,
   Database,
   LayoutGrid,
   Menu,
@@ -71,7 +72,7 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
 }) => {
   const groups: SidebarGroup[] = [
     {
-      groupTitle: 'Panel de Control',
+      groupTitle: 'PANEL DE CONTROL',
       items: [
         {
           id: 'resumen',
@@ -82,7 +83,7 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
       ],
     },
     {
-      groupTitle: 'Operación Logística',
+      groupTitle: 'OPERACIÓN LOGÍSTICA',
       items: [
         {
           id: 'pedidos',
@@ -123,7 +124,7 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
       ],
     },
     {
-      groupTitle: 'Directorio y Sistema',
+      groupTitle: 'DIRECTORIO Y SISTEMA',
       items: [
         {
           id: 'clientes',
@@ -143,13 +144,15 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#141413] text-[#e7e5e0] w-[256px] shrink-0 select-none border-r border-[#262523]">
+    <div className="flex flex-col h-full bg-[#1e191d] text-[#e8e4e6] w-[260px] shrink-0 select-none border-r border-[rgba(185,192,218,0.12)]">
       {/* Brand Header */}
-      <div className="h-[58px] px-4 flex items-center justify-between border-b border-[#262523]">
-        <div className="flex items-center gap-2.5">
+      <div className="h-[62px] px-4 flex items-center justify-between border-b border-[rgba(185,192,218,0.1)] bg-[#181417]">
+        <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-[6px] flex items-center justify-center font-mono-tabular font-bold text-white text-[13px]"
-            style={{ backgroundColor: 'var(--action)' }}
+            className="w-9 h-9 rounded-[8px] flex items-center justify-center font-mono-tabular font-bold text-[#1e191d] text-[13px] shadow-sm"
+            style={{
+              background: 'linear-gradient(135deg, #c4e7d4 0%, #b9c0da 100%)',
+            }}
           >
             KL
           </div>
@@ -158,11 +161,11 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
               <span className="font-semibold text-[14px] text-white tracking-tight">
                 Kira Logistic
               </span>
-              <span className="text-[10px] font-mono-tabular px-1.5 py-0.2 rounded bg-[#262523] text-[#a6a29a]">
+              <span className="text-[10px] font-mono-tabular font-medium px-1.5 py-0.2 rounded bg-[rgba(196,231,212,0.15)] text-[#c4e7d4]">
                 CRM
               </span>
             </div>
-            <div className="text-[11px] text-[#8c8881] truncate max-w-[160px]">
+            <div className="text-[11px] text-[#998da0] truncate max-w-[160px]">
               Distribuidora Kiramar S.A.S.
             </div>
           </div>
@@ -171,7 +174,7 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
         <button
           type="button"
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-1.5 rounded text-[#a6a29a] hover:text-white cursor-pointer"
+          className="lg:hidden p-1.5 rounded text-[#998da0] hover:text-white cursor-pointer"
           aria-label="Cerrar menú lateral"
         >
           <X className="w-4 h-4" />
@@ -185,10 +188,10 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
       >
         {groups.map((group) => (
           <div key={group.groupTitle}>
-            <div className="px-2.5 mb-1.5 text-[10px] font-mono-tabular font-semibold uppercase tracking-wider text-[#78746d]">
+            <div className="px-2.5 mb-2 text-[10px] font-mono-tabular font-semibold tracking-wider text-[#998da0]">
               {group.groupTitle}
             </div>
-            <div className="space-y-0.5">
+            <div className="space-y-1">
               {group.items.map((item) => {
                 const active = moduloActivo === item.id;
                 return (
@@ -199,16 +202,19 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
                       setModuloActivo(item.id);
                       setMobileOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-[7px] text-[13px] font-medium transition-colors cursor-pointer ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-[8px] text-[13px] font-medium transition-all cursor-pointer ${
                       active
-                        ? 'bg-[#262523] text-white'
-                        : 'text-[#b0aca5] hover:bg-[#1d1c1b] hover:text-white'
+                        ? 'bg-[#312a30] text-white shadow-sm border border-[rgba(196,231,212,0.22)]'
+                        : 'text-[#c8c2c6] hover:bg-[#282226] hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
+                      {active && (
+                        <span className="w-1 h-3.5 rounded-full bg-[#c4e7d4] shrink-0 -ml-1 mr-0.5" />
+                      )}
                       <span
                         className={
-                          active ? 'text-[#e06d48]' : 'text-[#7e7a72]'
+                          active ? 'text-[#c4e7d4]' : 'text-[#998da0]'
                         }
                       >
                         {item.icon}
@@ -219,24 +225,20 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
                     <div className="flex items-center gap-1.5 shrink-0">
                       {typeof item.badge === 'number' ? (
                         <span
-                          className="px-1.5 py-0.5 text-[11px] font-mono-tabular font-semibold rounded"
+                          className="px-2 py-0.5 text-[11px] font-mono-tabular font-semibold rounded-full"
                           style={{
                             backgroundColor: item.badgeAlert
-                              ? 'var(--action)'
+                              ? '#998da0'
                               : active
-                              ? '#383633'
-                              : '#21201e',
-                            color: item.badgeAlert
-                              ? '#ffffff'
-                              : active
-                              ? '#ffffff'
-                              : '#9e9a93',
+                              ? '#c4e7d4'
+                              : 'rgba(185, 192, 218, 0.16)',
+                            color: active ? '#1e191d' : item.badgeAlert ? '#ffffff' : '#b9c0da',
                           }}
                         >
                           {item.badge}
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono-tabular text-[#68645e]">
+                        <span className="text-[10px] font-mono-tabular text-[#998da0]">
                           {item.code}
                         </span>
                       )}
@@ -250,34 +252,35 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
       </nav>
 
       {/* Footer de barra lateral: Conexión WMS + Selector RBAC (RNF-01) */}
-      <div className="p-3 border-t border-[#262523] space-y-2.5 bg-[#10100f]">
+      <div className="p-3 border-t border-[rgba(185,192,218,0.12)] space-y-2.5 bg-[#171316]">
         <button
           type="button"
           onClick={onToggleWms}
           title="Alternar simulación de enlace WMS / Base de Datos (UC-01 Camino Alternativo 2)"
-          className="w-full flex items-center justify-between px-2.5 py-2 rounded-[6px] bg-[#1b1a19] border border-[#2c2b29] hover:border-[#45433f] text-[12px] cursor-pointer transition-colors"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-[7px] bg-[#221c21] border border-[rgba(185,192,218,0.14)] hover:border-[rgba(196,231,212,0.4)] text-[12px] cursor-pointer transition-colors"
         >
           <div className="flex items-center gap-2">
             <span
               className="w-2 h-2 rounded-full"
               style={{
-                backgroundColor: wmsConectado ? '#34d399' : '#f87171',
+                backgroundColor: wmsConectado ? '#c4e7d4' : '#b9c0da',
+                boxShadow: wmsConectado ? '0 0 8px rgba(196, 231, 212, 0.6)' : 'none',
               }}
             />
-            <span className="font-mono-tabular text-[#d4d0c8]">
+            <span className="font-mono-tabular text-[#e2dedf]">
               {wmsConectado ? 'WMS Kiramar: Activo' : 'WMS: Desconectado'}
             </span>
           </div>
-          <RefreshCw className="w-3.5 h-3.5 text-[#8c8881]" aria-hidden="true" />
+          <RefreshCw className="w-3.5 h-3.5 text-[#998da0]" aria-hidden="true" />
         </button>
 
-        <div className="p-2.5 rounded-[7px] bg-[#1b1a19] border border-[#2c2b29]">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono-tabular uppercase tracking-wider text-[#8c8881] mb-1">
+        <div className="p-2.5 rounded-[8px] bg-[#221c21] border border-[rgba(185,192,218,0.14)]">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono-tabular uppercase tracking-wider text-[#b9c0da] mb-1">
             <ShieldCheck
-              className="w-3.5 h-3.5 text-[#e06d48]"
+              className="w-3.5 h-3.5 text-[#c4e7d4]"
               aria-hidden="true"
             />
-            <span>Sesión RBAC (RNF-01)</span>
+            <span>Operador Activo (RNF-01)</span>
           </div>
           <label htmlFor="sidebar-user-select" className="sr-only">
             Cambiar usuario o rol activo
@@ -291,7 +294,7 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
               );
               if (found) onCambiarUsuario(found);
             }}
-            className="w-full bg-[#121211] text-white text-[12px] font-medium px-2 py-1.5 rounded border border-[#33312e] focus:outline-none cursor-pointer"
+            className="w-full bg-[#181417] text-white text-[12px] font-medium px-2 py-1.5 rounded border border-[rgba(185,192,218,0.2)] focus:outline-none cursor-pointer"
           >
             {usuarios.map((u) => (
               <option key={u.idUsuario} value={u.idUsuario}>
@@ -299,7 +302,7 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
               </option>
             ))}
           </select>
-          <div className="text-[11px] text-[#8c8881] mt-1 truncate">
+          <div className="text-[11px] text-[#998da0] mt-1 truncate">
             {usuarioActual.cargo}
           </div>
         </div>
@@ -309,16 +312,14 @@ export const CrmSidebar: React.FC<CrmSidebarProps> = ({
 
   return (
     <>
-      {/* Desktop Fixed Sidebar */}
-      <aside className="hidden lg:flex h-screen sticky top-0">
+      <aside className="hidden lg:flex h-screen sticky top-0 shadow-xl">
         {sidebarContent}
       </aside>
 
-      {/* Mobile Drawer Overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
-            className="fixed inset-0 bg-black/50"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
           <div className="relative z-10 flex h-full">{sidebarContent}</div>
@@ -352,7 +353,7 @@ export const TopCommandBar: React.FC<TopCommandBarProps> = ({
     resumen: {
       seccion: 'Panel de Control',
       titulo: 'Pipeline de Despachos y KPIs Operativos',
-      refSpec: 'Proceso FO-TEP',
+      refSpec: 'Proceso FO-TEP Kiramar',
     },
     pedidos: {
       seccion: 'Operación Logística',
@@ -396,7 +397,9 @@ export const TopCommandBar: React.FC<TopCommandBarProps> = ({
     pedidos.find((p) => p.idPedido === pedidoSeleccionadoId) || pedidos[0];
 
   return (
-    <header className="h-[58px] bg-[var(--card)] border-b border-[var(--hairline)] px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0 sticky top-0 z-20">
+    <header className="h-[62px] bg-white/90 backdrop-blur-md border-b border-[var(--hairline)] px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0 sticky top-0 z-20 relative">
+      <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#c4e7d4] via-[#b9c0da] to-[#63585e]" />
+      
       <a className="skip-link" href="#top">
         Saltar al área de trabajo
       </a>
@@ -405,54 +408,55 @@ export const TopCommandBar: React.FC<TopCommandBarProps> = ({
         <button
           type="button"
           onClick={onOpenMobileMenu}
-          className="lg:hidden p-2 rounded-[6px] border border-[var(--hairline)] text-[var(--ink)] cursor-pointer"
+          className="lg:hidden p-2 rounded-[7px] border border-[var(--hairline-strong)] text-[var(--ink)] cursor-pointer hover:bg-[rgba(196,218,207,0.2)]"
           aria-label="Abrir menú de navegación"
         >
           <Menu className="w-4 h-4" />
         </button>
 
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-[11px] font-mono-tabular text-[var(--muted)]">
+          <div className="flex items-center gap-1.5 text-[11px] font-mono-tabular text-[var(--muted)]">
             <span>{info.seccion}</span>
-            <span>/</span>
-            <span className="text-[var(--action)] font-medium">
+            <span className="text-[rgba(99,88,94,0.3)]">/</span>
+            <span className="text-[var(--taupe-grey)] font-semibold">
               {info.refSpec}
             </span>
           </div>
-          <h1 className="text-[15px] sm:text-[16px] font-semibold text-[var(--ink)] m-0 truncate">
+          <h1 className="text-[15px] sm:text-[16px] font-semibold text-[var(--ink)] m-0 truncate tracking-tight">
             {info.titulo}
           </h1>
         </div>
       </div>
 
-      {/* Selector global de Pedido Foco (Contexto transversal del CRM) */}
-      <div className="flex items-center gap-2.5 shrink-0">
-        <div className="hidden md:flex items-center gap-2 bg-[var(--g-main)] border border-[var(--hairline-strong)] rounded-[7px] px-2.5 py-1">
-          <span className="text-[11px] font-mono-tabular text-[var(--muted)]">
-            Pedido activo:
+      {/* Selector global de Pedido Foco */}
+      <div className="flex items-center gap-3 shrink-0">
+        <div className="hidden sm:flex items-center gap-2 bg-white border border-[rgba(99,88,94,0.18)] shadow-xs rounded-[8px] pl-3 pr-2.5 py-1.5 hover:border-[var(--taupe-grey)] transition-colors">
+          <span className="text-[11px] font-mono-tabular font-semibold text-[var(--muted)]">
+            Pedido foco:
           </span>
-          <label htmlFor="header-active-order" className="sr-only">
-            Seleccionar pedido activo en el flujo
-          </label>
-          <select
-            id="header-active-order"
-            value={pedidoFoco.idPedido}
-            onChange={(e) => onSeleccionarPedido(e.target.value)}
-            className="bg-transparent font-mono-tabular text-[12px] font-semibold text-[var(--ink)] focus:outline-none cursor-pointer"
-          >
-            {pedidos.map((p) => (
-              <option key={p.idPedido} value={p.idPedido}>
-                {p.idPedido} · {p.nombreCliente.slice(0, 24)} [{p.estadoPedido}]
-              </option>
-            ))}
-          </select>
+          <div className="relative flex items-center">
+            <select
+              id="header-active-order"
+              aria-label="Seleccionar pedido activo en el flujo"
+              value={pedidoFoco.idPedido}
+              onChange={(e) => onSeleccionarPedido(e.target.value)}
+              className="bg-transparent font-mono-tabular text-[12px] font-semibold text-[var(--ink)] pr-6 border-0 outline-none focus:outline-none focus:ring-0 cursor-pointer appearance-none"
+            >
+              {pedidos.map((p) => (
+                <option key={p.idPedido} value={p.idPedido}>
+                  {p.idPedido} · {p.nombreCliente.slice(0, 22)} [{p.estadoPedido}]
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-3.5 h-3.5 text-[var(--muted)] pointer-events-none absolute right-0" />
+          </div>
         </div>
 
         {moduloActivo !== 'pedidos' && (
           <button
             type="button"
             onClick={() => setModuloActivo('pedidos')}
-            className="btn-secondary !min-h-[32px] !px-2.5 !text-[12px]"
+            className="btn-secondary !min-h-[34px] !px-3 !text-[12px]"
           >
             Ver Bandeja
           </button>
